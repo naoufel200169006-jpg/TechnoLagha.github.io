@@ -83,6 +83,8 @@ footer{text-align:center;margin:24px 0}footer a{color:var(--mut);font-size:.85re
     <div><label for="cls">Classe à inclure</label><select id="cls"></select></div>
     <div><button id="mk" disabled>Générer le PDF</button></div>
    </div>
+   <p><button id="reset" class="sec">Réinitialiser cet appareil (efface l’évaluation en cours ou terminée)</button></p>
+   <p><button id="reset" class="sec">Effacer la sauvegarde de cet ordinateur</button> <span class="mut">(poste partagé : à faire avant qu’un autre élève commence)</span></p>
    <p class="mut">Le navigateur ouvre la fenêtre d’impression : choisis « Enregistrer au format PDF ». Le PDF contient la consigne pour l’IA, le sujet, le corrigé avec barème, puis les réponses (prénoms uniquement).</p>
   </div>
  </div>
@@ -93,7 +95,7 @@ footer{text-align:center;margin:24px 0}footer a{color:var(--mut);font-size:.85re
 <script>
 "use strict";
 const CODE="SEQ2";
-const SECRET={"salt":"4b4WW1P0V9FRoTiZd4/gdQ==","iv":"h/wWuOp5jSmnZ4JM","iter":150000,"ct":"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"};
+const SECRET={"salt":"BQR9tPHkpRxf520eRy8DhA==","iv":"jMg+kjaBFcpt0xFu","iter":150000,"ct":"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"};
 
 const EV=[
 {id:"ex1",titre:"Exercice 1 – Le cycle de vie d’un smartphone",qs:[
@@ -117,14 +119,22 @@ const QS=EV.flatMap(p=>p.qs).filter(q=>q.type!=="info");
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt=n=>String(n).replace(".",",");
-let ident=null, getters={}, lastBlob=null, lastName="";
+let ident=null, getters={}, setters={}, lastBlob=null, lastName="";
+const SK="evalstate_"+CODE;
+function loadSt(){try{return JSON.parse(localStorage.getItem(SK)||"null")}catch(_){return null}}
+let storeOK=true,autoTimer=null,tmr=null;
+function saveSt(o){try{localStorage.setItem(SK,JSON.stringify(o));storeOK=true;return true}catch(_){storeOK=false;return false}}
+function stamp(){const el=$("saved");if(!el)return;const d=new Date(),p=n=>String(n).padStart(2,"0");el.className=storeOK?"ok":"err";el.textContent=storeOK?`💾 Sauvegardé à ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`:"⚠ Sauvegarde automatique indisponible sur ce navigateur (navigation privée ?). Ne ferme pas et n’actualise pas la page."}
+function autosave(){if(!ident||$("quiz").classList.contains("hide"))return;const a={};QS.forEach(q=>{try{a[q.id]=getters[q.id]()}catch(_){}});saveSt({ident,answers:a,saved:Date.now()});stamp();window.onbeforeunload=storeOK?null:(()=>"Ton travail sera perdu.")}
+function schedule(){clearTimeout(tmr);tmr=setTimeout(autosave,400)}
+function startAuto(){clearInterval(autoTimer);autoTimer=setInterval(autosave,10000)}
 
 /* ---------- Élève ---------- */
 function mkSel(vals){const s=document.createElement("select");s.innerHTML='<option value="">–</option>'+vals.map(v=>`<option>${v}</option>`).join("");return s}
 function buildQuiz(){
  const f=$("quiz");f.innerHTML="";
  const head=document.createElement("div");head.className="card";
- head.innerHTML=`<h1>Évaluation – Séquence 2</h1><p class="mut" id="who"></p>`;f.appendChild(head);
+ head.innerHTML=`<h1>Évaluation – Séquence 2</h1><p class="mut" id="who"></p><p class="mut">Tes réponses sont sauvegardées automatiquement (à chaque modification et toutes les 10 secondes). Si tu actualises la page, tu reprends là où tu t’étais arrêté(e). <span id="saved"></span></p><p><button type="button" id="saveNow" class="sec">Sauvegarder maintenant</button></p>`;f.appendChild(head);
  EV.forEach(p=>{
   const c=document.createElement("div");c.className="card";
   const tot=p.qs.reduce((a,q)=>a+(q.pts||0),0);
@@ -134,14 +144,14 @@ function buildQuiz(){
    if(q.type==="info"){d.innerHTML=q.html;c.appendChild(d);return}
    d.innerHTML=`<b>${q.label}</b> <span class="pts">(${fmt(q.pts)} pt${q.pts>1?"s":""})</span>`;
    if(q.type==="text"){
-    const t=document.createElement("textarea");t.rows=q.rows||3;d.appendChild(t);getters[q.id]=()=>t.value.trim();
+    const t=document.createElement("textarea");t.rows=q.rows||3;d.appendChild(t);getters[q.id]=()=>t.value;setters[q.id]=v=>{t.value=v||""};
    }else if(q.type==="order"){
     const sels=q.items.map(it=>{const w=document.createElement("div");w.className="it";const s=mkSel([1,2,3,4,5]);w.appendChild(s);const t=document.createElement("span");t.className="t";t.textContent=it;w.appendChild(t);d.appendChild(w);return s});
-    getters[q.id]=()=>sels.map(s=>s.value);
+    getters[q.id]=()=>sels.map(s=>s.value);setters[q.id]=v=>sels.forEach((s,i)=>{s.value=(v&&v[i])||""});
    }else if(q.type==="letter"){
     const o=document.createElement("div");o.className="opts";o.innerHTML=q.options.map(esc).join("<br>");d.appendChild(o);
     const sels=q.items.map(it=>{const w=document.createElement("div");w.className="it";const t=document.createElement("span");t.className="t";t.textContent=it;w.appendChild(t);const s=mkSel(q.letters.split(""));w.appendChild(s);d.appendChild(w);return s});
-    getters[q.id]=()=>sels.map(s=>s.value);
+    getters[q.id]=()=>sels.map(s=>s.value);setters[q.id]=v=>sels.forEach((s,i)=>{s.value=(v&&v[i])||""});
    }else if(q.type==="tf"){
     const rows=q.items.map((it,i)=>{const w=document.createElement("div");w.className="it tf";
      const t=document.createElement("span");t.className="t";t.textContent=it;w.appendChild(t);
@@ -149,6 +159,7 @@ function buildQuiz(){
      w.insertAdjacentHTML("beforeend",`<span><label><input type="radio" name="${nm}" value="Vrai"> Vrai</label><label><input type="radio" name="${nm}" value="Faux"> Faux</label></span>`);
      const c2=document.createElement("input");c2.type="text";c2.placeholder="Correction si faux";w.appendChild(c2);d.appendChild(w);return {nm,c2}});
     getters[q.id]=()=>rows.map(r=>{const x=document.querySelector(`input[name="${r.nm}"]:checked`);return {v:x?x.value:"",corr:r.c2.value.trim()}});
+    setters[q.id]=v=>rows.forEach((r,i)=>{const o=(v&&v[i])||{};document.querySelectorAll(`input[name="${r.nm}"]`).forEach(x=>{x.checked=(x.value===o.v)});r.c2.value=o.corr||""});
    }
    c.appendChild(d);
   });
@@ -159,28 +170,38 @@ function buildQuiz(){
  f.appendChild(end);
  $("who").textContent=`${ident.prenom} ${ident.nom} · ${ident.classe}`;
  $("send").onclick=submit;
+ $("saveNow").onclick=autosave;f.addEventListener("input",schedule);f.addEventListener("change",schedule);startAuto();
 }
 $("go").onclick=()=>{
  const code=$("code").value.trim().toUpperCase(),prenom=$("prenom").value.trim(),nom=$("nom").value.trim(),classe=$("classe").value.trim();
  const e=$("errCode");e.classList.add("hide");
  if(code!==CODE.toUpperCase()){e.textContent="Code incorrect.";e.classList.remove("hide");return}
  if(!prenom||!nom||!classe){e.textContent="Renseigne ton prénom, ton nom et ta classe.";e.classList.remove("hide");return}
- ident={prenom,nom,classe};
- $("screenCode").classList.add("hide");$("quiz").classList.remove("hide");buildQuiz();window.scrollTo(0,0);
- window.onbeforeunload=()=>"Ton travail sera perdu.";
+ ident={prenom,nom,classe};saveSt({ident,answers:{}});
+ $("screenCode").classList.add("hide");$("quiz").classList.remove("hide");buildQuiz();autosave();window.scrollTo(0,0);
 };
 function dl(){const a=document.createElement("a");a.href=URL.createObjectURL(lastBlob);a.download=lastName;document.body.appendChild(a);a.click();a.remove()}
 function submit(){
  if(!confirm("Terminer l’évaluation ? Tu ne pourras plus modifier tes réponses."))return;
- const answers={};QS.forEach(q=>answers[q.id]=getters[q.id]());
+ const answers={};QS.forEach(q=>{let v=getters[q.id]();if(typeof v==="string")v=v.trim();if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==="object")v=v.map(o=>({v:o.v,corr:(o.corr||"").trim()}));answers[q.id]=v});
  const data={eval:CODE,prenom:ident.prenom,nom:ident.nom,classe:ident.classe,date:new Date().toISOString(),answers};
  lastBlob=new Blob([JSON.stringify(data)],{type:"application/json"});
  const clean=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]+/g,"_");
  lastName=`rendu_${clean(ident.nom)}_${clean(ident.prenom)}.json`;
- window.onbeforeunload=null;
+ clearInterval(autoTimer);clearTimeout(tmr);window.onbeforeunload=null;saveSt({ident,done:true,data,fname:lastName});
  $("quiz").classList.add("hide");$("screenDone").classList.remove("hide");$("fname").textContent=lastName;window.scrollTo(0,0);dl();
 }
 $("again").onclick=dl;
+(function restore(){
+ const st=loadSt();if(!st||!st.ident)return;
+ $("screenCode").classList.add("hide");
+ if(st.done){
+  lastBlob=new Blob([JSON.stringify(st.data)],{type:"application/json"});lastName=st.fname||"rendu.json";
+  $("screenDone").classList.remove("hide");$("fname").textContent=lastName;return;
+ }
+ ident=st.ident;$("quiz").classList.remove("hide");buildQuiz();
+ QS.forEach(q=>{if(st.answers&&setters[q.id])setters[q.id](st.answers[q.id])});autosave();
+})();
 
 /* ---------- Enseignant ---------- */
 const b64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -206,6 +227,8 @@ $("tGo").onclick=async()=>{
   $("errPw").classList.remove("hide");
  }
 };
+$("reset").onclick=()=>{if(confirm("Effacer l’évaluation enregistrée sur cet appareil ?")){try{localStorage.removeItem(SK)}catch(_){}alert("Appareil réinitialisé.")}};
+$("reset").onclick=()=>{if(confirm("Effacer la sauvegarde de cet ordinateur ? Un élève en cours d’évaluation perdrait son travail non rendu.")){try{localStorage.removeItem(SK)}catch(_){}alert("Sauvegarde effacée.")}};
 $("pw").addEventListener("keydown",e=>{if(e.key==="Enter")$("tGo").click()});
 $("files").onchange=async e=>{
  RENDUS=[];const bad=[];
